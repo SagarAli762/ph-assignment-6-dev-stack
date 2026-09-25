@@ -6,7 +6,7 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <Link className="text-[12px]" href="/workouts">
+        <Link className="text-[12px]" href="/">
           Workouts
         </Link>
       </li>

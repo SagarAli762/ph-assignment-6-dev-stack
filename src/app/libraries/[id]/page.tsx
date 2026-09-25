@@ -1,3 +1,5 @@
+import AddTodayPlanButton from "@/components/shared/AddTodayPlanButton";
+import SavedForLaterButton from "@/components/shared/SavedForLaterButton";
 import Image from "next/image";
 import { FaCheck, FaBookmark } from "react-icons/fa";
 interface ILibraryDetailProps {
@@ -195,40 +197,9 @@ const LibraryDetailsCard = async ({ params }: ILibraryDetailProps) => {
 
             {/*BUTTONS */}
             <div className="mt-5 flex flex-wrap gap-3">
-              <button
-                className="
-                btn
-                btn-sm
-                border-none
-                bg-[#C2F800]
-                px-4
-                text-[10px]
-                font-bold
-                text-black
-                hover:bg-[#b4e900]
-              "
-              >
-                <FaCheck size={10} />
-                Add to today's plan
-              </button>
+              <AddTodayPlanButton></AddTodayPlanButton>
 
-              <button
-                className="
-                btn
-                btn-sm
-                border
-                border-[#343944]
-                bg-transparent
-                px-4
-                text-[10px]
-                font-normal
-                text-gray-300
-                hover:bg-[#20232B]
-              "
-              >
-                <FaBookmark size={10} />
-                Save for later
-              </button>
+              <SavedForLaterButton></SavedForLaterButton>
             </div>
           </div>
         </div>

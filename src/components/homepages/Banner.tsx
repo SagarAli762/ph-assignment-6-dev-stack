@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Banner = () => {
   return (
-    <section className="container mx-auto mt-8 px-4 sm:px-6 lg:px-0">
+    <section className="container mx-auto mt-8 px-4 sm:px-6 lg:px-0 text-center lg:text-start">
       <div
         className="
           grid
@@ -18,10 +18,11 @@ const Banner = () => {
           sm:p-8
           md:p-10
           lg:p-[56px]
+          
         "
       >
         {/* Content */}
-        <div className="space-y-5 sm:space-y-6">
+        <div className="space-y-5 sm:space-y-6 max-w-[475px] lg:max-w-none mx-auto ">
           <p className="text-[12px] sm:text-[14px] font-bold text-[#C2F800]">
             WORKOUT LIBRARY
           </p>
