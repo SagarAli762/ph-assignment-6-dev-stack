@@ -12,7 +12,7 @@ const LibraryDetailsCard = async ({ params }: ILibraryDetailProps) => {
   const { id } = await params;
   const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
   const library = await res.json();
-  console.log(library);
+
   const {
     name,
     image,
@@ -197,7 +197,7 @@ const LibraryDetailsCard = async ({ params }: ILibraryDetailProps) => {
 
             {/*BUTTONS */}
             <div className="mt-5 flex flex-wrap gap-3">
-              <AddTodayPlanButton></AddTodayPlanButton>
+              <AddTodayPlanButton library={library}></AddTodayPlanButton>
 
               <SavedForLaterButton></SavedForLaterButton>
             </div>

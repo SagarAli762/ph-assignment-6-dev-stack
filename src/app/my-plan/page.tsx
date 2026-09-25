@@ -1,15 +1,23 @@
 "use client";
 
 import TabButton from "@/components/shared/TabButton";
-import {
-  FaArrowRight,
-  FaChevronDown,
-  FaDumbbell,
-  FaRegClock,
-  FaFire,
-} from "react-icons/fa";
+import { LibrariesContext } from "@/context/LibrariesContext";
+import { ILibrary } from "@/types/libraries.type";
+import { useContext, useState } from "react";
+import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
 const MyPlan = () => {
+  const { todayPlans } = useContext(LibrariesContext);
+  console.log("today plan is", todayPlans);
+
+  const totalMinutes = todayPlans.reduce(
+    (total: number, todayPlan: ILibrary) => total + todayPlan.duration,
+    0,
+  );
+  const totalCalories = todayPlans.reduce(
+    (total: number, todayPlan: ILibrary) => total + todayPlan.caloriesBurned,
+    0,
+  );
   return (
     <section className="container mx-auto rounded-xl mt-20  sm:p-6">
       {/* Header */}
@@ -30,7 +38,9 @@ const MyPlan = () => {
           <p className="lg:text-[12px]">Exercises</p>
 
           <div className="mt-1 flex items-center gap-2">
-            <span className="lg:text-[36px] font-bold text-[#CCFF00]">2</span>
+            <span className="lg:text-[36px] font-bold text-[#CCFF00]">
+              {todayPlans.length}
+            </span>
           </div>
         </div>
 
@@ -39,7 +49,9 @@ const MyPlan = () => {
           <p className="lg:text-[12px]">Minutes</p>
 
           <div className="mt-1 flex items-center gap-2">
-            <span className="lg:text-[36px] font-bold text-white">23</span>
+            <span className="lg:text-[36px] font-bold text-white">
+              {totalMinutes}
+            </span>
           </div>
         </div>
 
@@ -48,7 +60,9 @@ const MyPlan = () => {
           <p className="lg:text-[12px]">Calories</p>
 
           <div className="mt-1 flex items-center gap-2">
-            <span className="lg:text-[36px] font-bold text-white">190</span>
+            <span className="lg:text-[36px] font-bold text-white">
+              {totalCalories}
+            </span>
           </div>
         </div>
       </div>

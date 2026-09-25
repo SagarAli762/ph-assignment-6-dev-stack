@@ -2,10 +2,10 @@
 import React, { createContext, ReactNode, useState } from "react";
 export const LibrariesContext = createContext({});
 const LibrariesProvider = ({ children }: { children: ReactNode }) => {
-  const [todayPlan, setTodayPlan] = useState("today");
+  const [todayPlans, setTodayPlans] = useState([]);
   const sharedData = {
-    todayPlan,
-    setTodayPlan,
+    todayPlans,
+    setTodayPlans,
   };
   return (
     <LibrariesContext.Provider value={sharedData}>
