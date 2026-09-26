@@ -1,8 +1,11 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { LibrariesContext } from "@/context/LibrariesContext";
 const Navbar = () => {
+  const { todayPlans, savedData } = useContext(LibrariesContext);
   const links = (
     <>
       <li>
@@ -66,7 +69,7 @@ const Navbar = () => {
               <span className="text-sm text-white">Plan</span>
 
               <span className="badge badge-success rounded-full bg-[#B6FF00] text-black border-none w-5 h-5 p-0">
-                0
+                {todayPlans.length}
               </span>
             </div>
 
@@ -75,7 +78,7 @@ const Navbar = () => {
               <span className="text-sm text-gray-400">Saved</span>
 
               <span className="badge rounded-full border border-gray-600 bg-transparent text-gray-400 w-5 h-5 p-0">
-                0
+                {savedData.length}
               </span>
             </div>
           </div>

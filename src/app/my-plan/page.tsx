@@ -1,21 +1,35 @@
 "use client";
 
+import MyPlanCard from "@/components/shared/MyPlanCard";
+import SavredCard from "@/components/shared/SavredCard";
 import TabButton from "@/components/shared/TabButton";
+import TodayPlanCard from "@/components/shared/TodayPlanCard";
 import { LibrariesContext } from "@/context/LibrariesContext";
 import { ILibrary } from "@/types/libraries.type";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
 const MyPlan = () => {
-  const { todayPlans } = useContext(LibrariesContext);
+  const { todayPlans, savedData, isActive } = useContext(LibrariesContext);
   console.log("today plan is", todayPlans);
+  console.log(isActive);
 
+  //today's plan calculate
   const totalMinutes = todayPlans.reduce(
     (total: number, todayPlan: ILibrary) => total + todayPlan.duration,
     0,
   );
   const totalCalories = todayPlans.reduce(
     (total: number, todayPlan: ILibrary) => total + todayPlan.caloriesBurned,
+    0,
+  );
+  //saved data calculate
+  const totalSavedMinutes = savedData.reduce(
+    (total: number, data: ILibrary) => total + data.duration,
+    0,
+  );
+  const totalSavedCalories = savedData.reduce(
+    (total: number, data: ILibrary) => total + data.caloriesBurned,
     0,
   );
   return (
@@ -39,7 +53,7 @@ const MyPlan = () => {
 
           <div className="mt-1 flex items-center gap-2">
             <span className="lg:text-[36px] font-bold text-[#CCFF00]">
-              {todayPlans.length}
+              {isActive === "today" ? todayPlans.length : savedData.length}
             </span>
           </div>
         </div>
@@ -50,7 +64,7 @@ const MyPlan = () => {
 
           <div className="mt-1 flex items-center gap-2">
             <span className="lg:text-[36px] font-bold text-white">
-              {totalMinutes}
+              {isActive === "today" ? totalMinutes : totalSavedMinutes}
             </span>
           </div>
         </div>
@@ -61,7 +75,7 @@ const MyPlan = () => {
 
           <div className="mt-1 flex items-center gap-2">
             <span className="lg:text-[36px] font-bold text-white">
-              {totalCalories}
+              {isActive === "today" ? totalCalories : totalSavedCalories}
             </span>
           </div>
         </div>
@@ -82,20 +96,28 @@ const MyPlan = () => {
       </div>
 
       {/* Empty State */}
-      <div className="mt-3 flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#242831] bg-[#0d0f13] px-4 text-center">
-        <h3 className="text-[10px] font-bold tracking-wide">
-          NOTHING HERE YET
-        </h3>
+      {todayPlans.length > 0 || savedData.length > 0 ? (
+        isActive === "today" ? (
+          <TodayPlanCard></TodayPlanCard>
+        ) : (
+          <SavredCard></SavredCard>
+        )
+      ) : (
+        <div className="mt-3 flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#242831] bg-[#0d0f13] px-4 text-center">
+          <h3 className="text-[10px] font-bold tracking-wide">
+            NOTHING HERE YET
+          </h3>
 
-        <p className="mt-1 text-[7px] text-gray-500">
-          Browse the library and add a lift to get today moving.
-        </p>
+          <p className="mt-1 text-[7px] text-gray-500">
+            Browse the library and add a lift to get today moving.
+          </p>
 
-        <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
-          Go to workouts
-          <FaArrowRight className="text-[7px]" />
-        </button>
-      </div>
+          <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
+            Go to workouts
+            <FaArrowRight className="text-[7px]" />
+          </button>
+        </div>
+      )}
     </section>
   );
 };

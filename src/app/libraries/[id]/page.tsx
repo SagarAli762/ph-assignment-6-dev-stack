@@ -10,7 +10,7 @@ interface ILibraryDetailProps {
 
 const LibraryDetailsCard = async ({ params }: ILibraryDetailProps) => {
   const { id } = await params;
-  const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
+  const res = await fetch(`https://api.api-store.workers.dev/api/fitlog/${id}`);
   const library = await res.json();
 
   const {
@@ -199,7 +199,7 @@ const LibraryDetailsCard = async ({ params }: ILibraryDetailProps) => {
             <div className="mt-5 flex flex-wrap gap-3">
               <AddTodayPlanButton library={library}></AddTodayPlanButton>
 
-              <SavedForLaterButton></SavedForLaterButton>
+              <SavedForLaterButton library={library}></SavedForLaterButton>
             </div>
           </div>
         </div>
