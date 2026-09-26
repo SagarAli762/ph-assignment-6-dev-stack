@@ -8,10 +8,10 @@ import { toast } from "react-toastify";
 const AddTodayPlanButton = ({ library }: { library: ILibrary }) => {
   const { todayPlans, setTodayPlans } = useContext(LibrariesContext);
   const handleTodayPlan = (libraryId: number) => {
-    const alreadyAdded = todayPlans.find(
+    const alreadyAdded = todayPlans.some(
       (plan: ILibrary) => plan.id === libraryId,
     );
-    if (todayPlans.includes(alreadyAdded)) {
+    if (alreadyAdded) {
       return toast.error("Already in your plan");
     } else {
       setTodayPlans([...todayPlans, library]);

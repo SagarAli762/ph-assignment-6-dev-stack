@@ -2,9 +2,13 @@ import LibraryCard from "@/components/shared/LibraryCard";
 import { ILibrary } from "@/types/libraries.type";
 import React from "react";
 const getLibraries = async () => {
-  const res = await fetch("https://api.abcz.workers.dev/api/fitlog");
-  const data = await res.json();
-  return data;
+  try {
+    const res = await fetch("https://api.abcz.workers.dev/api/fitlog");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("error fetching libraries data", error);
+  }
 };
 const LibrariesPage = async () => {
   const libraries = await getLibraries();
