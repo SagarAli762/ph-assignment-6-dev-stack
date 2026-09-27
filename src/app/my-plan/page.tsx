@@ -6,14 +6,31 @@ import TabButton from "@/components/shared/TabButton";
 import TodayPlanCard from "@/components/shared/TodayPlanCard";
 import { LibrariesContext } from "@/context/LibrariesContext";
 import { ILibrary } from "@/types/libraries.type";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
 const MyPlan = () => {
   const { todayPlans, savedData, isActive } = useContext(LibrariesContext);
   console.log("today plan is", todayPlans);
   console.log(isActive);
-
+  const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">(
+    "duration",
+  );
+  const sortLibraries = (libraries: ILibrary[]) => {
+    const sortedLibraries = [...libraries];
+    if (sortBy === "duration") {
+      sortedLibraries.sort((a, b) => b.duration - a.duration);
+    } else if (sortBy === "calories") {
+      sortedLibraries.sort((a, b) => b.caloriesBurned - a.caloriesBurned);
+    } else if (sortBy === "rating") {
+      sortedLibraries.sort((a, b) => b.rating - a.rating);
+    }
+    return sortedLibraries;
+  };
+  const sortByTodayPlans = sortLibraries(todayPlans);
+  const sortBySavedForLater = sortLibraries(savedData);
+  sortLibraries(savedData);
+  console.log(sortBy);
   //today's plan calculate
   const totalMinutes = todayPlans.reduce(
     (total: number, todayPlan: ILibrary) => total + todayPlan.duration,
@@ -86,21 +103,28 @@ const MyPlan = () => {
         {/* Tabs */}
         <TabButton></TabButton>
         {/* Sort */}
-        <button className="flex items-center gap-1 text-[8px] text-gray-500">
-          Sort By
-          <span className="flex items-center gap-1 rounded-md border border-[#242831] px-2 py-1 text-gray-300">
-            Duration
-            <FaChevronDown className="text-[7px]" />
-          </span>
-        </button>
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend text-white">Sort By</legend>
+          <select
+            value={sortBy}
+            className="select bg-black"
+            onChange={(e) =>
+              setSortBy(e.target.value as "duration" | "calories" | "rating")
+            }
+          >
+            <option value={"duration"}>Duration</option>
+            <option value={"calories"}>Calories</option>
+            <option value={"rating"}>Rating</option>
+          </select>
+        </fieldset>
       </div>
 
       {/* Empty State */}
       {todayPlans.length > 0 || savedData.length > 0 ? (
         isActive === "today" ? (
-          <TodayPlanCard></TodayPlanCard>
+          <TodayPlanCard sortByTodayPlans={sortByTodayPlans}></TodayPlanCard>
         ) : (
-          <SavredCard></SavredCard>
+          <SavredCard sortBySavedForLater={sortBySavedForLater}></SavredCard>
         )
       ) : (
         <div className="mt-3 flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#242831] bg-[#0d0f13] px-4 text-center">

@@ -12,8 +12,11 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Link from "next/link";
-
-const TodayPlanCard = () => {
+import { ILibrary } from "@/types/libraries.type";
+interface TodayPlanCardProps {
+  sortByTodayPlans: ILibrary[];
+}
+const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
   const { todayPlans, setTodayPlans } = useContext(LibrariesContext);
 
   console.log("ttt", todayPlans);
@@ -24,8 +27,8 @@ const TodayPlanCard = () => {
   };
   return (
     <>
-      {todayPlans.length > 0 ? (
-        todayPlans.map((todayPlan) => (
+      {sortByTodayPlans.length > 0 ? (
+        sortByTodayPlans.map((todayPlan) => (
           <div
             key={todayPlan.id}
             className="

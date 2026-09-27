@@ -12,8 +12,11 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Link from "next/link";
-
-const SavedCard = () => {
+import { ILibrary } from "@/types/libraries.type";
+interface SavedCardProps {
+  sortBySavedForLater: ILibrary[];
+}
+const SavedCard = ({ sortBySavedForLater }: SavedCardProps) => {
   const { savedData, setSavedData } = useContext(LibrariesContext);
 
   const handleRemovedData = (id: number) => {
@@ -24,8 +27,8 @@ const SavedCard = () => {
   };
   return (
     <>
-      {savedData.length > 0 ? (
-        savedData.map((data) => (
+      {sortBySavedForLater.length > 0 ? (
+        sortBySavedForLater.map((data) => (
           <div
             key={data.id}
             className="
