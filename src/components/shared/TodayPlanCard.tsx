@@ -1,20 +1,34 @@
 "use client";
 import { LibrariesContext } from "@/context/LibrariesContext";
 import React, { useContext } from "react";
-import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
-import { FaCheck, FaClock, FaFire, FaStar, FaTimes } from "react-icons/fa";
-import { ILibrary } from "@/types/libraries.type";
+import {
+  FaArrowRight,
+  FaCheck,
+  FaClock,
+  FaFire,
+  FaStar,
+  FaTimes,
+} from "react-icons/fa";
+import { toast } from "react-toastify";
+import Link from "next/link";
 
 const TodayPlanCard = () => {
-  const { todayPlans } = useContext(LibrariesContext);
+  const { todayPlans, setTodayPlans } = useContext(LibrariesContext);
+
   console.log("ttt", todayPlans);
+  const handleRemovePlan = (id: number) => {
+    const updatedPlan = todayPlans.filter((plan) => plan.id !== id);
+    setTodayPlans(updatedPlan);
+    toast.success("Removed from today's plan ");
+  };
   return (
     <>
-      {todayPlans.map((todayPlan) => (
-        <div
-          key={todayPlan.id}
-          className="
+      {todayPlans.length > 0 ? (
+        todayPlans.map((todayPlan) => (
+          <div
+            key={todayPlan.id}
+            className="
     group
     my-2
     flex
@@ -35,23 +49,23 @@ const TodayPlanCard = () => {
     sm:px-2
     sm:py-2
   "
-        >
-          {/* Image */}
+          >
+            {/* Image */}
 
-          <Image
-            src={todayPlan.image}
-            alt={todayPlan.name}
-            width={100}
-            height={60}
-            unoptimized
-            className="object-cover"
-          />
+            <Image
+              src={todayPlan.image}
+              alt={todayPlan.name}
+              width={100}
+              height={60}
+              unoptimized
+              className="object-cover"
+            />
 
-          {/* Content */}
-          <div className="min-w-0 flex-1">
-            {/* Name */}
-            <h3
-              className="
+            {/* Content */}
+            <div className="min-w-0 flex-1">
+              {/* Name */}
+              <h3
+                className="
         truncate
         text-[9px]
         font-bold
@@ -61,26 +75,26 @@ const TodayPlanCard = () => {
 
         sm:text-[11px]
       "
-            >
-              {todayPlan.name}
-            </h3>
+              >
+                {todayPlan.name}
+              </h3>
 
-            {/* Equipment */}
-            <p
-              className="
+              {/* Equipment */}
+              <p
+                className="
         truncate
         text-[7px]
         text-[#737985]
 
         sm:text-[8px]
       "
-            >
-              {todayPlan.equipment}
-            </p>
+              >
+                {todayPlan.equipment}
+              </p>
 
-            {/* Stats */}
-            <div
-              className="
+              {/* Stats */}
+              <div
+                className="
         mt-1
         flex
         items-center
@@ -91,30 +105,30 @@ const TodayPlanCard = () => {
         sm:gap-3
         sm:text-[8px]
       "
-            >
-              {/* Duration */}
-              <span className="flex items-center gap-1">
-                <FaClock className="text-[#C2F800]" />
-                {todayPlan.duration} min
-              </span>
+              >
+                {/* Duration */}
+                <span className="flex items-center gap-1">
+                  <FaClock className="text-[#C2F800]" />
+                  {todayPlan.duration} min
+                </span>
 
-              {/* Calories */}
-              <span className="flex items-center gap-1">
-                <FaFire className="text-[#C2F800]" />
-                {todayPlan.caloriesBurned} kcal
-              </span>
+                {/* Calories */}
+                <span className="flex items-center gap-1">
+                  <FaFire className="text-[#C2F800]" />
+                  {todayPlan.caloriesBurned} kcal
+                </span>
 
-              {/* Rating */}
-              <span className="flex items-center gap-1">
-                <FaStar className="text-[#C2F800]" />
-                {todayPlan.rating}
-              </span>
+                {/* Rating */}
+                <span className="flex items-center gap-1">
+                  <FaStar className="text-[#C2F800]" />
+                  {todayPlan.rating}
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* Actions */}
-          <div
-            className="
+            {/* Actions */}
+            <div
+              className="
       flex
       shrink-0
       items-center
@@ -122,10 +136,12 @@ const TodayPlanCard = () => {
 
       sm:gap-2
     "
-          >
-            {/* View Details */}
-            <button
-              className="
+            >
+              {/* View Details */}
+              <Link href={`/libraries/${todayPlan.id}`}>
+                {" "}
+                <button
+                  className="
         btn
         btn-xs
         min-h-6
@@ -146,13 +162,14 @@ const TodayPlanCard = () => {
         sm:px-3
         sm:text-[8px]
       "
-            >
-              View Details
-            </button>
+                >
+                  View Details
+                </button>
+              </Link>
 
-            {/* Mark as Done */}
-            <button
-              className="
+              {/* Mark as Done */}
+              <button
+                className="
         btn
         btn-xs
         min-h-6
@@ -171,14 +188,15 @@ const TodayPlanCard = () => {
         sm:px-3
         sm:text-[8px]
       "
-            >
-              <FaCheck className="text-[7px] sm:text-[8px]" />
-              Mark as Done
-            </button>
+              >
+                <FaCheck className="text-[7px] sm:text-[8px]" />
+                Mark as Done
+              </button>
 
-            {/* Remove */}
-            <button
-              className="
+              {/* Remove */}
+              <button
+                onClick={() => handleRemovePlan(todayPlan.id)}
+                className="
         flex
         h-5
         w-5
@@ -194,13 +212,29 @@ const TodayPlanCard = () => {
         sm:h-6
         sm:w-6
       "
-              aria-label="Remove from today's plan"
-            >
-              <FaTimes className="text-[8px] sm:text-[9px]" />
-            </button>
+                aria-label="Remove from today's plan"
+              >
+                <FaTimes className="text-[8px] sm:text-[9px]" />
+              </button>
+            </div>
           </div>
+        ))
+      ) : (
+        <div className="mt-3 flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#242831] bg-[#0d0f13] px-4 text-center">
+          <h3 className="text-[10px] font-bold tracking-wide">
+            NOTHING HERE YET
+          </h3>
+
+          <p className="mt-1 text-[7px] text-gray-500">
+            Browse the library and add a lift to get today moving.
+          </p>
+
+          <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
+            Go to workouts
+            <FaArrowRight className="text-[7px]" />
+          </button>
         </div>
-      ))}
+      )}
     </>
   );
 };
