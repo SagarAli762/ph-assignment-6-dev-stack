@@ -6,6 +6,7 @@ import TabButton from "@/components/shared/TabButton";
 import TodayPlanCard from "@/components/shared/TodayPlanCard";
 import { LibrariesContext } from "@/context/LibrariesContext";
 import { ILibrary } from "@/types/libraries.type";
+import Link from "next/link";
 import { useContext, useState } from "react";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
@@ -104,10 +105,12 @@ const MyPlan = () => {
         <TabButton></TabButton>
         {/* Sort */}
         <fieldset className="fieldset">
-          <legend className="fieldset-legend text-white">Sort By</legend>
+          <legend className="fieldset-legend text-[12px] text-[#8A92A0]">
+            Sort By
+          </legend>
           <select
             value={sortBy}
-            className="select bg-black"
+            className="select bg-[#13161D] rounded text-white text-[12px]"
             onChange={(e) =>
               setSortBy(e.target.value as "duration" | "calories" | "rating")
             }
@@ -128,18 +131,21 @@ const MyPlan = () => {
         )
       ) : (
         <div className="mt-3 flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#242831] bg-[#0d0f13] px-4 text-center">
-          <h3 className="text-[10px] font-bold tracking-wide">
+          <h3 className="text-[10px] lg:text-[20px] font-bold text-white">
             NOTHING HERE YET
           </h3>
 
-          <p className="mt-1 text-[7px] text-gray-500">
+          <p className="mt-1 text-[7px] lg:text-[12px] text-gray-500">
             Browse the library and add a lift to get today moving.
           </p>
 
-          <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
-            Go to workouts
-            <FaArrowRight className="text-[7px]" />
-          </button>
+          <Link href={`/`}>
+            {" "}
+            <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] lg:text-[12px] font-semibold text-black hover:bg-[#d0ff20]">
+              Go to workouts
+              <FaArrowRight className="text-[7px]" />
+            </button>
+          </Link>
         </div>
       )}
     </section>

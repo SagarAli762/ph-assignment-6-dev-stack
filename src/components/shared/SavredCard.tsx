@@ -153,7 +153,8 @@ const SavedCard = ({ sortBySavedForLater }: SavedCardProps) => {
         border-[#30343D]
         bg-[#191C22]
         px-2
-        text-[7px]
+        text-[10px]
+        lg:text-[12px]
         font-normal
         text-white
         hover:border-[#C2F800]
@@ -162,45 +163,20 @@ const SavedCard = ({ sortBySavedForLater }: SavedCardProps) => {
         sm:min-h-7
         sm:h-7
         sm:px-3
-        sm:text-[8px]
+        
       "
                 >
                   View Details
                 </button>
               </Link>
-              {/* Mark as Done */}
-              <button
-                className="
-        btn
-        btn-xs
-        min-h-6
-        h-6
-        rounded-full
-        border-none
-        bg-[#C2F800]
-        px-2
-        text-[7px]
-        font-bold
-        text-black
-        hover:bg-[#B4E900]
-
-        sm:min-h-7
-        sm:h-7
-        sm:px-3
-        sm:text-[8px]
-      "
-              >
-                <FaCheck className="text-[7px] sm:text-[8px]" />
-                Mark as Done
-              </button>
 
               {/* Remove */}
               <button
                 onClick={() => handleRemovedData(data.id)}
                 className="
         flex
-        h-5
-        w-5
+        h-10
+        w-10
         shrink-0
         items-center
         justify-center
@@ -210,12 +186,12 @@ const SavedCard = ({ sortBySavedForLater }: SavedCardProps) => {
         hover:bg-[#252931]
         hover:text-white
 
-        sm:h-6
-        sm:w-6
+        sm:h-10
+        sm:w-10
       "
                 aria-label="Remove from today's plan"
               >
-                <FaTimes className="text-[8px] sm:text-[9px]" />
+                <FaTimes className="text-[10px]  lg:text-[12px]" />
               </button>
             </div>
           </div>
@@ -230,10 +206,13 @@ const SavedCard = ({ sortBySavedForLater }: SavedCardProps) => {
             Browse the library and add a lift to get today moving.
           </p>
 
-          <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
-            Go to workouts
-            <FaArrowRight className="text-[7px]" />
-          </button>
+          <Link href={`/`}>
+            {" "}
+            <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
+              Go to workouts
+              <FaArrowRight className="text-[7px]" />
+            </button>
+          </Link>
         </div>
       )}
     </>

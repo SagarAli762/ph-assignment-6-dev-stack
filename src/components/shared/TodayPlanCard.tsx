@@ -1,6 +1,6 @@
 "use client";
 import { LibrariesContext } from "@/context/LibrariesContext";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import {
   FaArrowRight,
@@ -18,7 +18,14 @@ interface TodayPlanCardProps {
 }
 const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
   const { todayPlans, setTodayPlans } = useContext(LibrariesContext);
-
+  const [markIds, setMarkIds] = useState<number[]>([]);
+  const handlemarkIds = (id: number) => {
+    if (markIds.includes(id)) {
+      return;
+    }
+    setMarkIds([...markIds, id]);
+    toast.success("marks the workout done");
+  };
   console.log("ttt", todayPlans);
   const handleRemovePlan = (id: number) => {
     const updatedPlan = todayPlans.filter((plan) => plan.id !== id);
@@ -69,14 +76,13 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
               {/* Name */}
               <h3
                 className="
-        truncate
         text-[9px]
         font-bold
         uppercase
         tracking-wide
         text-white
-
-        sm:text-[11px]
+lg:text-[16px]
+        sm:text-[11px] 
       "
               >
                 {todayPlan.name}
@@ -85,11 +91,10 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
               {/* Equipment */}
               <p
                 className="
-        truncate
-        text-[7px]
+        text-[10px]
         text-[#737985]
-
-        sm:text-[8px]
+lg:text-[12px]
+        
       "
               >
                 {todayPlan.equipment}
@@ -102,28 +107,28 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
         flex
         items-center
         gap-2
-        text-[7px]
+        text-[10px]
         text-[#B7BBC3]
-
+        lg:text-[12px]
         sm:gap-3
-        sm:text-[8px]
+        
       "
               >
                 {/* Duration */}
-                <span className="flex items-center gap-1">
-                  <FaClock className="text-[#C2F800]" />
+                <span className="flex items-center gap-1 text-[10px] lg:text-[12px]">
+                  <FaClock className="text-[#C2F800] " />
                   {todayPlan.duration} min
                 </span>
 
                 {/* Calories */}
-                <span className="flex items-center gap-1">
+                <span className="flex text-[10px] lg:text-[12px] items-center gap-1">
                   <FaFire className="text-[#C2F800]" />
                   {todayPlan.caloriesBurned} kcal
                 </span>
 
                 {/* Rating */}
-                <span className="flex items-center gap-1">
-                  <FaStar className="text-[#C2F800]" />
+                <span className="flex items-center text-[10px] lg:text-[12px] gap-1">
+                  <FaStar className="text-[#C2F800] " />
                   {todayPlan.rating}
                 </span>
               </div>
@@ -154,7 +159,7 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
         border-[#30343D]
         bg-[#191C22]
         px-2
-        text-[7px]
+        text-[10px]  lg:text-[12px]
         font-normal
         text-white
         hover:border-[#C2F800]
@@ -163,7 +168,7 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
         sm:min-h-7
         sm:h-7
         sm:px-3
-        sm:text-[8px]
+        
       "
                 >
                   View Details
@@ -172,28 +177,24 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
 
               {/* Mark as Done */}
               <button
-                className="
-        btn
+                onClick={() => handlemarkIds(todayPlan.id)}
+                className={`btn
         btn-xs
         min-h-6
         h-6
         rounded-full
         border-none
-        bg-[#C2F800]
+        
         px-2
-        text-[7px]
+        text-[10px]  lg:text-[12px]
         font-bold
-        text-black
-        hover:bg-[#B4E900]
 
         sm:min-h-7
         sm:h-7
-        sm:px-3
-        sm:text-[8px]
-      "
+        sm:px-3 ${markIds.includes(todayPlan.id) ? "bg-gray-600 text-gray-300" : "bg-[#C2F800] text-black hover:bg-[#B4E900]"}`}
               >
-                <FaCheck className="text-[7px] sm:text-[8px]" />
-                Mark as Done
+                <FaCheck className="text-[10px]  lg:text-[12px]" />
+                {markIds.includes(todayPlan.id) ? "Completed" : "Mark as Done"}
               </button>
 
               {/* Remove */}
@@ -201,8 +202,8 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
                 onClick={() => handleRemovePlan(todayPlan.id)}
                 className="
         flex
-        h-5
-        w-5
+        h-10
+        w-10
         shrink-0
         items-center
         justify-center
@@ -212,12 +213,12 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
         hover:bg-[#252931]
         hover:text-white
 
-        sm:h-6
-        sm:w-6
+        sm:h-10
+        sm:w-10
       "
                 aria-label="Remove from today's plan"
               >
-                <FaTimes className="text-[8px] sm:text-[9px]" />
+                <FaTimes className="text-[10px]  lg:text-[12px]" />
               </button>
             </div>
           </div>
@@ -232,10 +233,13 @@ const TodayPlanCard = ({ sortByTodayPlans }: TodayPlanCardProps) => {
             Browse the library and add a lift to get today moving.
           </p>
 
-          <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
-            Go to workouts
-            <FaArrowRight className="text-[7px]" />
-          </button>
+          <Link href={`/`}>
+            {" "}
+            <button className="btn btn-xs mt-3 h-7 min-h-0 rounded-full border-0 bg-[#c2f800] px-4 text-[8px] font-bold text-black hover:bg-[#d0ff20]">
+              Go to workouts
+              <FaArrowRight className="text-[7px]" />
+            </button>
+          </Link>
         </div>
       )}
     </>
